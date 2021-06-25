@@ -1,0 +1,32 @@
+
+looker.plugins.visualizations.add({
+    create: function(element, config) {
+
+
+	this._container = document.createElement('div')
+	this._container.id='fb-container'
+	element.append(this._container)
+
+	
+
+	
+
+    },
+    updateAsync: function(data, element, config, queryResponse, details, done) {
+
+
+	var [id,fbid] = data[0][queryResponse.fields.dimensions[0].name].valuedata.split("_") 
+
+
+
+	if (this._item && this._item == fbid) {
+	    return true
+	}
+
+	this._item=fbid
+	
+	this._container.innerHTML=`<iframe onload="done()" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D${fbid}&width=500&show_text=true&height=474&appId" width="500" height="474" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+`;
+
+    }
+})
